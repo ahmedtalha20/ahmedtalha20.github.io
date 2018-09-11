@@ -12,15 +12,13 @@ let dx;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   x = width/2;
-  dx = 5
-  rectx = 100
-  rexty = 100
+  dx = 5;
 }
 
 function draw() {
-  background(150, 150, 150)
-  fill(0, 255, 0)
-  ellipse(x, 400, rectx, recty)
+  background(150, 150, 150);
+  fill(0, 255, 0);
+  ellipse(mouseX, mouseY, 100, 100);
 
   //move rectangle
   x += dx;
