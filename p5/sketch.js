@@ -12,6 +12,6 @@ function setup() {
 
 function draw() {
     if (mouseIsPressed) {
-      react(mouseX, mouseY, 10,10);
+      rect(mouseX, mouseY, 10, 10);
     }
 }
