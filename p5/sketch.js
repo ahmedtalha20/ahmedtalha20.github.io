@@ -5,6 +5,8 @@
 //
 
 let dvd;
+let x, y;
+let dx, dy;
 
 function preload() {
   dvd = loadImage("assets/dvd.jpg");
@@ -12,6 +14,10 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  x = width / 2;
+  y = width / 2;
+  dx = random(3, 8);
+  dy = random(3, 8);
 }
 
 function draw() {
