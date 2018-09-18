@@ -14,7 +14,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  x = width / 2;
+  x = width / 2 - dvd.width / 2;
   y = width / 2;
   dx = random(3, 8);
   dy = random(3, 8);
@@ -22,5 +22,5 @@ function setup() {
 
 function draw() {
   background(80, 80, 80);
-  image(dvd, 0, 0);
+  image(dvd, x, y);
 }
