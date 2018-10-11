@@ -13,7 +13,16 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   image(fish, 0, 0);
   grayFish = makeGrayscale(fish);
-  image(grayFish, 0, 0);
+  // image(grayFish, 0, 0);
+}
+
+function keyTyped() {
+  if (keyCode === "g") {
+    image(grayFish, 0, 0);
+  }
+  else if(keyCode === "e"){
+    image(fish, 0, 0);
+  }
 }
 
 function draw() {
