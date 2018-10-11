@@ -11,7 +11,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // image(fish, 0, 0);
+  image(fish, 0, 0);
   grayFish = makeGrayscale(fish);
   // image(grayFish, 0, 0);
 }
