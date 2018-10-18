@@ -20,3 +20,12 @@ function draw() {
     }
   }
 }
+
+function keyTyped() {
+  if (key === "w") {
+    background(255);
+  }
+  else if (key === "b") {
+    background(0);
+  }
+}
