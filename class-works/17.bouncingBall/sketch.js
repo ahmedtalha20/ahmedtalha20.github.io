@@ -26,7 +26,6 @@ function draw() {
     if(ballArray[i].y < 0 + ballArray[i].radius || ballArray[i].y > height - ballArray[i].radius){
       ballArray[i].dy *= -1;
     }
-
     //display ballArray[i]
     fill(0);
     ellipse(ballArray[i].x, ballArray[i].y, ballArray[i].radius*2, ballArray[i].radius*2);
