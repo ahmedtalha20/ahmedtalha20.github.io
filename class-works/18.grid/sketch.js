@@ -136,3 +136,12 @@ function createRandom2dArray(cols, rows) {
   }
   return randomGrid;
 }
+
+//To get the pattern of the game of pi 
+/*let stringOfGrid = "";
+for (let y = 0; y < grid.length; y++) {
+  for (let x = 0; x < grid[y].length; x++) {
+    stringOfGrid += grid[y][x];
+  }
+  stringOfGrid += "\n";
+}*/
