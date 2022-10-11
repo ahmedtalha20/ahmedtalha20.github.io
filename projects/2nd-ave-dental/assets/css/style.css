@@ -1,0 +1,47 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: relative;
+}
+
+.border{    
+	border-bottom: 1px solid #c3c3c3;
+	margin: 30px 0;
+}
+
+#main-nav{
+    background: #2BACE0;
+    padding: 0;
+}
+
+#main-nav  #links{
+    margin-left: auto;        
+}
+
+#main-nav ul.navbar-nav a.nav-link{
+    padding: 21px 15px;
+    margin: 0 2px;
+    font-weight: bold;
+    height: 100%;
+    transition: .7s;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#main-nav .navbar-nav .nav-link.active,
+#main-nav .navbar-nav a.nav-link:hover {    
+    background: #17769b;
+}
+
+#homeappointment #message{
+    height: 200px;
+}
+
+
+h1, h2, h3{
+    font-weight: bold;
+}
