@@ -1,5 +1,6 @@
-var p1;
-var p2;
+var matrix = [];
+var p1 = 'O';
+var p2 = 'X';
 var move = 0;
 var turn = true;
 var gameOver = false;
@@ -7,7 +8,9 @@ var winner = document.getElementById('winner');
 var winnerText = document.getElementById('winnerText');
 var squares = document.getElementById('squares');
 
-console.log(winner);
+for (var row = 0; row < 3; ++row) {
+    matrix.push(['', '', '']);
+}
 
 // winner.style.display = "none";
 firstRow = "99px";
