@@ -1,0 +1,67 @@
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.box > h1, .box > form, .box > p{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.guesses{
+    margin-top: 20px;
+}
+
+.guess {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.guess > h2{
+    line-height: 0;
+    margin-right: 10px;
+}
+
+.guess .letter{
+    width: 65px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.letter.incorrect{
+    background: #A4AEC4;
+    color: white;
+    border-color: #A4AEC4;
+  }
+  
+.letter.correct{
+    background: #79B851;
+    color: white;
+    border-color: #79B851;
+  }
+  
+.letter.position{
+    background: #F3C237;
+    color: white;
+    border-color: #F3C237;
+}
+
+.show{
+    display: flex;
+}
+
+.hide{
+    display: none;
+}
