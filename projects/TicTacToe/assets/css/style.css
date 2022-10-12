@@ -1,0 +1,137 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#box{
+    width: 600px;
+    min-height: 500px;
+    margin: 0 auto;
+    background: navy;
+}
+
+#content{
+    width: 555px;
+    margin: 10px auto 20px;
+    padding: 10px 0;
+    position: relative;
+}
+
+.row{
+    display: inline-block;
+    margin: -2px 0;
+}
+
+.square{
+    width: 175px;    
+    min-height: 178px;
+    border: 3px solid white;  
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 150px;
+    color: white;
+    float: left;
+    cursor: pointer;
+}
+
+#b1{
+    border-top: 0;
+    border-left: 0;
+    padding-top: 3px;
+    padding-left: 3px;
+}
+
+#b2{
+    border-top: 0;
+    padding-top: 3px;
+}
+
+#b3{
+    border-top: 0;
+    border-right: 0;
+    padding-top: 3px;
+    padding-right: 3px;
+}
+
+#b4{
+    border-left: 0;
+    padding-left: 3px;
+}
+
+#b6{
+    border-right: 0;
+    padding-right: 3px;
+}
+
+#b7{
+    border-left: 0;
+    border-bottom: 0;
+    padding-left: 3px;
+    padding-bottom: 3px;
+}
+
+#b8{
+    border-bottom: 0;
+    padding-bottom: 3px;
+}
+
+#b9{
+    border-right: 0;
+    border-bottom: 0;
+    padding-bottom: 3px;
+    padding-right: 3px;
+}
+
+#winner {
+    width: 540px;
+    height: 10px;
+    margin: 0 4px;
+    background: white;
+    position: absolute;
+    display: none;
+}
+
+#winnerCol {
+    width: 540px;
+    height: 10px;
+    margin: 0 4px;
+    background: white;
+    position: absolute;
+    transform: rotate(90deg);
+    top: 280px;    
+    display: none;
+}
+
+#winnerd1{
+    width: 730px;
+    height: 10px;    
+    margin: 0 4px;
+    background: white;
+    position: absolute;
+    transform: rotate(45.5deg);
+    top: 280px;  
+    left: -100px;
+}
+
+#winnerText{
+    width: 1253px;
+    font-size: 200px;
+    color: orange;
+    position: absolute;
+    top: 176px;
+    left: -355px;
+    text-align: center;
+}
+
+/* #winnerd2{
+    width: 760px;
+    height: 10px;    
+    margin: 0 4px;
+    background: white;
+    position: absolute;
+    transform: rotate(-46deg);
+    top: 291px;  
+    left: -111px;
+} */
+
