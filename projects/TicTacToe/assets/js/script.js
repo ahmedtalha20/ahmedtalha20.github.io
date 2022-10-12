@@ -13,6 +13,8 @@ for (var row = 0; row < 3; ++row) {
 }
 
 function play(id, row, column) {
+    if(gameOver) return;
+    
     if (matrix[row][column] === '') {
         matrix[row][column] = turn ? p1 : p2;
         document.getElementById(id).innerText = matrix[row][column];
@@ -24,7 +26,7 @@ function play(id, row, column) {
         gameOver = true;
     }
 
-    if (gameOver) {
+    if (gameOver && move > 8) {
         winnerText.innerText = 'Draw';
         squares.style.opacity = '0.2';
         return;
@@ -51,17 +53,16 @@ function checkWinner() {
             return declareWinner(matrix[0][column], `c-${column}`);
         }
     }
-
+    
     // Check diagonally
-    if (matrix[0][0] == '' || matrix[0][2] == '') return;
-
+    
     // diagonal 1
-    if (matrix[0][0] == matrix[1][1] && matrix[1][1] == matrix[2][2]) {
+    if (matrix[0][0] != '' && matrix[0][0] == matrix[1][1] && matrix[1][1] == matrix[2][2]) {
         return declareWinner(matrix[0][0], "d-1");
     }
 
     // diagonal 2
-    if (matrix[0][2] == matrix[1][1] && matrix[1][1] == matrix[2][0]) {
+    if (matrix[0][2] != '' && matrix[0][2] == matrix[1][1] && matrix[1][1] == matrix[2][0]) {
         return declareWinner(matrix[0][2], "d-2");
     }
 }
