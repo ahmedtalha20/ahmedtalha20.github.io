@@ -1,5 +1,6 @@
-var p1;
-var p2;
+var matrix = [];
+var p1 = 'O';
+var p2 = 'X';
 var move = 0;
 var turn = true;
 var gameOver = false;
@@ -7,184 +8,78 @@ var winner = document.getElementById('winner');
 var winnerText = document.getElementById('winnerText');
 var squares = document.getElementById('squares');
 
-console.log(winner);
-
-// winner.style.display = "none";
-firstRow = "99px";
-secondRow = "292px";
-thirdRow = "485px";
-
-firstCol = "190px";
-secondCol = "1px";
-thirdCol = "183px";
-
-
-function play(id){    
-
-    var sq = document.getElementById(id);    
-    // sq.style.background = "black";
-    if (!gameOver){
-        if (sq.innerText == ""){
-            if(turn){
-                sq.innerText = "O";            
-            }else{
-                sq.innerText = "X";
-            }        
-            turn = !turn;
-            move++;
-        }
-    }   
-
-    b1 = document.getElementById("b1").innerText;
-    b2 = document.getElementById("b2").innerText;
-    b3 = document.getElementById("b3").innerText;
-
-    b4 = document.getElementById("b4").innerText;
-    b5 = document.getElementById("b5").innerText;
-    b6 = document.getElementById("b6").innerText;
-
-    b7 = document.getElementById("b7").innerText;
-    b8 = document.getElementById("b8").innerText;
-    b9 = document.getElementById("b9").innerText;
-
-    if (move > 4){
-        // first row
-        if(b1 == b2 && b1 == b3 && b1 != ""){
-            if (b1 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";                
-            }                  
-            gameOver = true;
-            win("fr");   
-        }
-
-        // second row
-        if(b4 == b5 && b4 == b6 && b4 != ""){
-            if (b4 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            gameOver = true;
-            win("sr");
-        }
-
-        // third row
-        if(b7 == b8 && b7 == b9 && b7 != ""){
-            if (b7 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            gameOver = true;
-            win("tr");
-        }
-
-        // first col
-        if(b1 == b4 && b1 == b7 && b1 != ""){
-            if (b1 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            gameOver = true;
-            win("fc");
-        }
-
-        // second col
-        if(b2 == b5 && b2 == b8 && b2 != ""){
-            if (b2 == "O"){                
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            gameOver = true;
-            win("sc");
-        }
-
-        // third col
-        if(b3 == b6 && b3 == b9 && b3 != ""){
-            if (b3 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }
-             
-            gameOver = true;
-            win("tc");
-        }
-
-        // diagonal1
-        if(b1 == b5 && b1 == b9 && b1 != ""){
-            if (b1 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            
-            gameOver = true;
-            win("d1");
-        }
-
-        // diagonal2
-        if(b3 == b5 && b3 == b7 && b3 != ""){
-            if (b3 == "O"){
-                winnerText.innerText = "Player O Wins!";
-            }else{
-                winnerText.innerText = "Player X Wins!";
-            }            
-            gameOver = true;
-            win("d2");
-        }
-    }
-
-    if (move == 9 && !gameOver){
-        winnerText.innerText = "Draw"; 
-        squares.style.opacity = "0.2";        
-    }    
+for (var row = 0; row < 3; ++row) {
+    matrix.push(['', '', '']);
 }
 
-function win(s){
-    if(s == "fr"){
-        winner.style.top = firstRow;
-    }
-    else if(s == "sr"){
-        winner.style.top = secondRow;
-    }
-
-    else if(s == "tr"){
-        winner.style.top = thirdRow;
+function play(id, row, column) {
+    if (matrix[row][column] === '') {
+        matrix[row][column] = turn ? p1 : p2;
+        document.getElementById(id).innerText = matrix[row][column];
+        turn = !turn;
+        move++;
     }
 
-    else if(s == "fc"){
-        winner.id = "winnerCol";
-        winner.style.right = firstCol;
+    if (move > 8) {
+        gameOver = true;
     }
 
-    else if(s == "sc"){
-        winner.id = "winnerCol";
-        winner.style.left = secondCol;
+    if (gameOver) {
+        winnerText.innerText = 'Draw';
+        squares.style.opacity = '0.2';
+        return;
     }
 
-    else if(s == "tc"){
-        winner.id = "winnerCol";
-        winner.style.left = thirdCol;
+    checkWinner();
+}
+
+function checkWinner() {
+    if (move <= 4) return;
+
+    // Check row-wise
+    for (var row = 0; row < 3; ++row) {
+        if (matrix[row][0] == '') continue;
+        if (matrix[row][0] == matrix[row][1] && matrix[row][1] == matrix[row][2]) {
+            return declareWinner(matrix[row][0], `r-${row}`);
+        }
     }
 
-    else if(s == "d1"){
-        winner.id = "winnerd1";
+    // Check column-wise
+    for (var column = 0; column < 3; ++column) {
+        if (matrix[0][column] == '') continue;
+        if (matrix[0][column] == matrix[1][column] && matrix[1][column] == matrix[2][column]) {
+            return declareWinner(matrix[0][column], `c-${column}`);
+        }
     }
 
-    else if(s == "d2"){
-        winner.id = "winnerd1";
-        winner.style.transform = "rotate(-45.5deg)";
+    // Check diagonally
+    if (matrix[0][0] == '' || matrix[0][2] == '') return;
+
+    // diagonal 1
+    if (matrix[0][0] == matrix[1][1] && matrix[1][1] == matrix[2][2]) {
+        return declareWinner(matrix[0][0], "d-1");
     }
 
-    if(gameOver){
-        winner.style.display = "block";
-        squares.style.opacity = "0.2";
-    }    
+    // diagonal 2
+    if (matrix[0][2] == matrix[1][1] && matrix[1][1] == matrix[2][0]) {
+        return declareWinner(matrix[0][2], "d-2");
+    }
+}
 
+function declareWinner(player, s) {
+    winnerText.innerText = `Player ${player} Wins!`;
+    gameOver = true;
 
+    if (s.charAt(0) == 'r') {
+        winner.style.top = '' + (100 + parseInt(s.charAt(2)) * 180) + 'px';
+    } else if (s.charAt(0) == 'c') {
+        winner.id = 'winnerCol';
+        winner.style.left = '' + (-185 + parseInt(s.charAt(2)) * 180) + 'px';
+    } else if (s.charAt(0) == 'd') {
+        winner.id = 'winnerd1';
+        if (s.charAt(2) == '2') winner.style.transform = 'rotate(-45.5deg)';
+    }
+
+    winner.style.display = 'block';
+    squares.style.opacity = '0.2';
 }
