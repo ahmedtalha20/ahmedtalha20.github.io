@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times - Saskatoon</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .prayer { padding: 10px; border: 1px solid #ddd; margin: 5px; border-radius: 5px; background-color: #f9f9f9; }
+        .current { background-color: #ffcccb; font-weight: bold; }
+        .next { background-color: #ffff99; font-weight: bold; }
+        h2 { color: #333; }
+        h3 { color: #555; }
+        #tahajjudTime, #sunriseSunset { font-weight: bold; color: #008080; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Prayer Times for Saskatoon</h2>
+        <p id="currentDate"></p>
+        <input type="date" id="datePicker" onchange="fetchPrayerTimes()">
+        <div id="prayerTimes"></div>
+        <h3>Tahajjud Time</h3>
+        <p id="tahajjudTime"></p>
+        <h3>Sunrise & Sunset</h3>
+        <p id="sunriseSunset"></p>
+    </div>
+    <script>
+        function formatTime(time24) {
+            let [hours, minutes] = time24.split(":").map(Number);
+            let period = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12; 
+            return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+        }
+        
+        function subtractMinutes(time, minutes) {
+            let [hours, mins] = time.split(":").map(Number);
+            let date = new Date();
+            date.setHours(hours, mins - minutes);
+            return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function fetchPrayerTimes() {
+            let selectedDate = document.getElementById('datePicker').value;
+            if (!selectedDate) {
+                let today = new Date();
+                selectedDate = today.toISOString().split('T')[0];
+                document.getElementById('datePicker').value = selectedDate;
+            }
+            document.getElementById("currentDate").innerText = "Selected Date: " + selectedDate;
+
+            fetch(`https://api.aladhan.com/v1/timingsByCity/${selectedDate}?city=Saskatoon&country=Canada&method=2`)
+            .then(response => response.json())
+            .then(data => {
+                const times = data.data.timings;
+                let sunrise = times["Sunrise"];
+                let sunset = times["Sunset"];
+                let prayerOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+                let now = new Date();
+                let current = "", next = "";
+                
+                let prayerHTML = "";
+                prayerOrder.forEach((prayer, index) => {
+                    let startTime = times[prayer];
+                    let endTime;
+                    
+                    if (prayer === "Fajr") endTime = subtractMinutes(sunrise, 20);
+                    else if (prayer === "Dhuhr") endTime = subtractMinutes(times["Asr"], 20);
+                    else if (prayer === "Asr") endTime = subtractMinutes(sunset, 20);
+                    else if (prayer === "Maghrib") endTime = subtractMinutes(times["Isha"], 20);
+                    else if (prayer === "Isha") {
+                        let [maghribHours, maghribMinutes] = times["Maghrib"].split(":" ).map(Number);
+                        let [fajrHours, fajrMinutes] = times["Fajr"].split(":" ).map(Number);
+                        let middleHour = Math.floor((maghribHours + fajrHours) / 2);
+                        let middleMinute = Math.floor((maghribMinutes + fajrMinutes) / 2);
+                        endTime = `${middleHour}:${middleMinute.toString().padStart(2, '0')}`;
+                    }
+                    
+                    let prayerTime = new Date();
+                    let [hours, minutes] = startTime.split(":").map(Number);
+                    prayerTime.setHours(hours, minutes);
+                    
+                    if (now >= prayerTime) current = prayer;
+                    else if (!next) next = prayer;
+                    
+                    let className = current === prayer ? "current" : next === prayer ? "next" : "";
+                    prayerHTML += `<div class='prayer ${className}'>${prayer}: ${formatTime(startTime)} - ${formatTime(endTime)}</div>`;
+                });
+
+                document.getElementById("prayerTimes").innerHTML = prayerHTML;
+                
+                let ishaTime = times["Isha"].split(":").map(Number);
+                let fajrTime = times["Fajr"].split(":").map(Number);
+                let tahajjudStart = new Date();
+                tahajjudStart.setHours(ishaTime[0] + 1, ishaTime[1]);
+                let tahajjudEnd = new Date();
+                tahajjudEnd.setHours(fajrTime[0] - 1, fajrTime[1]);
+                document.getElementById("tahajjudTime").innerText = `${formatTime(tahajjudStart.toTimeString().slice(0, 5))} - ${formatTime(tahajjudEnd.toTimeString().slice(0, 5))}`;
+                
+                let sunriseTime = formatTime(sunrise);
+                let sunsetTime = formatTime(sunset);
+                document.getElementById("sunriseSunset").innerText = `Sunrise: ${sunriseTime}, Sunset: ${sunsetTime}`;
+            })
+            .catch(error => console.error("Error fetching prayer times:", error));
+        }
+        fetchPrayerTimes();
+    </script>
+</body>
+</html>
